@@ -1,25 +1,24 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+
 import './App.css';
+import Table from './Components/Table';
+import Modal from './Components/Modal';
+
+
 
 function App() {
+  const [modalopen,setmodalopen]= useState(false);
+  const rows=[
+    {sno:'1',name:'Harshita',email:"harshita.gupta@innostax.com",number:"8595848067"},
+    {sno:'2',name:'Aditya',email:"aditya.singh@innostax.com",number:"9995848067"}
+  ];
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  <div className='App'>
+    <Table rows={rows}/>
+    <button className='btn' onClick={()=>setmodalopen(true)}>Add</button>
+    {modalopen && <Modal closemodal={()=> setmodalopen(false)}/>}
+  </div>
+  );  
 }
 
 export default App;
