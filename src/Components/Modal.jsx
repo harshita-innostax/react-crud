@@ -1,54 +1,82 @@
-import React,{useState} from 'react'
+import React from 'react';
+import { Formik,Field,Form,ErrorMessage } from 'formik';
 import "./Modal.css";
 const Modal = ({closemodal, onSubmit, defaultValue}) => {
 
-  const [formState,setformState]= useState(defaultValue || {
+  const initialValues = defaultValue || {
     sno: "",
     name: "",
     email: "",
     number: ""
-  });
+  };
 
-  const [errors,setErrors]= useState("");
-  const validateForm=()=>{
-    if(formState.sno && formState.name && formState.email && formState.number){
-      setErrors("")
-      return true;
-    } else{
-      let errorFields=[];
-      for(const [key,value] of Object.entries(formState)){
-        if(!value){
-          errorFields.push(key)
-        }
-      }
-      setErrors(errorFields.join(","));
-      return false;
-    }
-  }
-  const handleChange=(e) =>{
+  const validateForm = (values) => {
+    const errors = {};
+    if (!values.sno) errors.sno = "Sno is required";
+    if (!values.name) errors.name = "Name is required";
+    if (!values.email) errors.email = "Email is required";
+    if (!values.number) errors.number = "Number is required";
+    return errors;
+  };
+
+  
+  {/*const handleChange=(e) =>{
     setformState({
       ...formState,
       [e.target.name]: e.target.value});
-  };
+  };*/}
 
- const handleSubmit= (e)=> {
-  e.preventDefault();
+ const handleSubmit= (formState)=> {
+  
   console.log(formState);
 
-  if(!validateForm()) return;
+  if(!validateForm(formState)) return;
   onSubmit(formState); 
   closemodal();
  };
  
-
-
 
   return (
     <div className='modal-container' onClick={(e)=>{
         if(e.target.className==="modal-container")closemodal()
         }}>
       <div className='modal'>
-        <form>
+      <Formik
+          initialValues={initialValues}
+          validate={validateForm}
+          onSubmit={handleSubmit}
+        >
+          {() => (
+            <Form>
+              <div className='form-grp'>
+                <label htmlFor='sno' className='labelstyle'>Sno</label>
+                <Field name='sno' />
+                <ErrorMessage name='sno' component="div" className="error" />
+              </div>
+
+              <div className='form-grp'>
+                <label htmlFor='name' className='labelstyle'>Name</label>
+                <Field name='name' />
+                <ErrorMessage name='name' component="div" className="error" />
+              </div>
+
+              <div className='form-grp'>
+                <label htmlFor='email' className='labelstyle'>Email</label>
+                <Field name='email' />
+                <ErrorMessage name='email' component="div" className="error" />
+              </div>
+
+              <div className='form-grp'>
+                <label htmlFor='number' className='labelstyle'>Number</label>
+                <Field name='number' />
+                <ErrorMessage name='number' component="div" className="error" />
+              </div>
+
+              <button type='submit' className='btn'>Submit</button>
+            </Form>
+          )}
+        </Formik>
+        {/*<form>
             <div className='form-grp'>
                 <label htmlFor='sno' className='labelstyle'>Sno</label>
                 <input name='sno' value={formState.sno} onChange={handleChange}/>
@@ -67,10 +95,10 @@ const Modal = ({closemodal, onSubmit, defaultValue}) => {
             </div>
             {errors && <div className='error'>{`Please Include: ${errors}`}</div>}
             <button type='submit' className='btn' onClick={handleSubmit}>Submit</button>
-        </form>
+        </form>*/}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Modal
+export default Modal;

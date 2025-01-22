@@ -4,7 +4,9 @@ import { BsFillPencilFill, BsFillTrashFill } from 'react-icons/bs'
 const Table = ({rows,deleteRow,editRow}) => {
   return (
     <div className='table-wrapper'>
+        <h1 className='table-title'>Employee Entry</h1>
         <table className='table'>
+            
             <thead>
                 <tr>
                     <th>SNo.</th>
