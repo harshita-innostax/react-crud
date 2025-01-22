@@ -1,7 +1,7 @@
 import React from 'react'
 import "./Table.css"
 import { BsFillPencilFill, BsFillTrashFill } from 'react-icons/bs'
-const Table = ({rows}) => {
+const Table = ({rows,deleteRow,editRow}) => {
   return (
     <div className='table-wrapper'>
         <table className='table'>
@@ -19,9 +19,16 @@ const Table = ({rows}) => {
                     rows.map((row,idx)=> {
                         return <tr key={idx}>
                             <td>{row.sno}</td>
-                            <td>{row.name}</td>
+                            <td className='expand'>{row.name}</td>
                             <td><span>{row.email}</span></td>
                             <td>{row.number}</td>
+                            <td>
+                                <span className='actions'>
+                                    <BsFillTrashFill className='delete-btn' onClick={()=> deleteRow(idx)}/>
+                                    <BsFillPencilFill onClick={()=>editRow(idx)}/>
+
+                                </span>
+                            </td>
                         </tr>
                     })
                 }
