@@ -14,7 +14,7 @@ const validateSchema = Yup.object({
   sno: Yup.number()
     .required("Sno. is required")
     .min(1, "Sno should be a number")
-    .typeError("Number must be a valid number")
+    .typeError("Sno must be a valid number")
     .positive("Sno must be a valid number"),
   name: Yup.string()
     .min(4, "Name must be at least 4 characters long")
