@@ -1,4 +1,4 @@
-.modal-container{
+.modal{
     position: fixed;
     left: 0;
     top: 0;
@@ -12,12 +12,12 @@
 
 }
 
-.modal{
+/*.modal{
     border-radius: 5px;
     padding: 2rem;
     background-color: white;
     width: 25em;
-}
+}*/
 .modal .btn{
     display: block;
     margin: auto;
