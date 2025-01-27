@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addUser } from "../Redux/userReducer";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "./Register.css";
@@ -11,11 +14,6 @@ const initialValues = {
 };
 
 const validateSchema = Yup.object({
-  sno: Yup.number()
-    .required("Sno. is required")
-    .min(1, "Sno should be a number")
-    .typeError("Sno must be a valid number")
-    .positive("Sno must be a valid number"),
   name: Yup.string()
     .min(4, "Name must be at least 4 characters long")
     .typeError("Enter a Valid Name")
@@ -29,9 +27,21 @@ const validateSchema = Yup.object({
 });
 
 const Register = () => {
-  const handleSubmit = (formState) => {
+  const users = useSelector((state) => state.users);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = (values) => {
     console.log("Handlesubmit called");
-    //console.log(formState);
+    dispatch(
+      addUser({
+        sno: users[users.length - 1].sno + 1,
+        name: values.name,
+        email: values.email,
+        number: values.number,
+      })
+    );
+    navigate("/");
   };
 
   return (
@@ -43,14 +53,6 @@ const Register = () => {
       >
         {() => (
           <Form>
-            <div className="form-grp">
-              <label htmlFor="sno" className="labelstyle">
-                Sno
-              </label>
-              <Field name="sno" />
-              <ErrorMessage name="sno" component="div" className="error" />
-            </div>
-
             <div className="form-grp">
               <label htmlFor="name" className="labelstyle">
                 Name

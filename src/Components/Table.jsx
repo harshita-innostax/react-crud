@@ -1,7 +1,20 @@
 import React from "react";
 import "./Table.css";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
-const Table = ({ rows, deleteRow, editRow }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUser } from "../Redux/userReducer";
+import { Link } from "react-router-dom";
+
+const Table = ({ editRow }) => {
+  const users = useSelector((state) => state.users);
+  console.log(users);
+  const dispatch = useDispatch();
+
+  const handleDelete = (sno) => {
+    console.log("handleDelete is called");
+    dispatch(deleteUser({ sno: sno }));
+  };
+
   return (
     <div className="table-wrapper">
       <h1 className="table-title">Employee Entry</h1>
@@ -16,22 +29,24 @@ const Table = ({ rows, deleteRow, editRow }) => {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, idx) => {
+          {users.map((user, idx) => {
             return (
               <tr key={idx}>
-                <td>{row.sno}</td>
-                <td className="expand">{row.name}</td>
+                <td>{user.sno}</td>
+                <td className="expand">{user.name}</td>
                 <td>
-                  <span>{row.email}</span>
+                  <span>{user.email}</span>
                 </td>
-                <td>{row.number}</td>
+                <td>{user.number}</td>
                 <td>
                   <span className="actions">
                     <BsFillTrashFill
                       className="delete-btn"
-                      onClick={() => deleteRow(idx)}
+                      onClick={() => handleDelete(user.sno)}
                     />
-                    <BsFillPencilFill onClick={() => editRow(idx)} />
+                    <Link to={`/edit/${user.sno}`}>
+                      <BsFillPencilFill />
+                    </Link>
                   </span>
                 </td>
               </tr>
