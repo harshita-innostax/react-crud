@@ -1,18 +1,25 @@
 import React from "react";
-import "./Table.css";
-import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteUser } from "../Redux/userReducer";
-import { Link } from "react-router-dom";
+import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
+import { deleteUser, setSelectedUserId } from "../Redux/user.reducer";
+import { selectUsers } from "../Redux/user.selectors";
+import "./Table.css";
 
-const Table = ({ editRow }) => {
-  const users = useSelector((state) => state.users);
+const Table = () => {
+  const users = useSelector(selectUsers);
   console.log(users);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleDelete = (sno) => {
     console.log("handleDelete is called");
-    dispatch(deleteUser({ sno: sno }));
+    dispatch(deleteUser({ sno }));
+  };
+
+  const handleEdit = (sno) => {
+    dispatch(setSelectedUserId(sno));
+    navigate(`/register/${sno}`);
   };
 
   return (
@@ -21,7 +28,6 @@ const Table = ({ editRow }) => {
       <table className="table">
         <thead>
           <tr>
-            <th>SNo.</th>
             <th className="expand">Name</th>
             <th className="expand">Email</th>
             <th>Phone Number</th>
@@ -29,10 +35,9 @@ const Table = ({ editRow }) => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user, idx) => {
+          {users.map((user) => {
             return (
-              <tr key={idx}>
-                <td>{user.sno}</td>
+              <tr key={user.sno}>
                 <td className="expand">{user.name}</td>
                 <td>
                   <span>{user.email}</span>
@@ -44,9 +49,7 @@ const Table = ({ editRow }) => {
                       className="delete-btn"
                       onClick={() => handleDelete(user.sno)}
                     />
-                    <Link to={`/edit/${user.sno}`}>
-                      <BsFillPencilFill />
-                    </Link>
+                    <BsFillPencilFill onClick={() => handleEdit(user.sno)} />
                   </span>
                 </td>
               </tr>

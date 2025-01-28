@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { addUser } from "../Redux/userReducer";
+import { addUser, updateUser } from "../Redux/user.reducer";
+import { selectSelectedUserId } from "../Redux/user.selectors";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { v4 as uuid } from "uuid";
 import "./Register.css";
 
 const initialValues = {
@@ -27,20 +28,32 @@ const validateSchema = Yup.object({
 });
 
 const Register = () => {
-  const users = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const selectedUserId = useSelector(selectSelectedUserId);
 
   const handleSubmit = (values) => {
     console.log("Handlesubmit called");
-    dispatch(
-      addUser({
-        sno: users[users.length - 1].sno + 1,
-        name: values.name,
-        email: values.email,
-        number: values.number,
-      })
-    );
+    console.log(selectedUserId);
+    if (selectedUserId) {
+      dispatch(
+        updateUser({
+          sno: selectedUserId,
+          name: values.name,
+          email: values.email,
+          number: values.number,
+        })
+      );
+    } else {
+      dispatch(
+        addUser({
+          sno: uuid(),
+          name: values.name,
+          email: values.email,
+          number: values.number,
+        })
+      );
+    }
     navigate("/");
   };
 
@@ -77,7 +90,7 @@ const Register = () => {
               <ErrorMessage name="number" component="div" className="error" />
             </div>
 
-            <button type="submit" className="btn" onClick={() => handleSubmit}>
+            <button type="submit" className="btn">
               Submit
             </button>
           </Form>
