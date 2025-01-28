@@ -1,6 +1,10 @@
-import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, updateUser } from "../Redux/user.reducer";
+import { selectSelectedUserId } from "../Redux/user.selectors";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { v4 as uuid } from "uuid";
 import "./Register.css";
 
 const initialValues = {
@@ -11,11 +15,6 @@ const initialValues = {
 };
 
 const validateSchema = Yup.object({
-  sno: Yup.number()
-    .required("Sno. is required")
-    .min(1, "Sno should be a number")
-    .typeError("Sno must be a valid number")
-    .positive("Sno must be a valid number"),
   name: Yup.string()
     .min(4, "Name must be at least 4 characters long")
     .typeError("Enter a Valid Name")
@@ -29,9 +28,33 @@ const validateSchema = Yup.object({
 });
 
 const Register = () => {
-  const handleSubmit = (formState) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const selectedUserId = useSelector(selectSelectedUserId);
+
+  const handleSubmit = (values) => {
     console.log("Handlesubmit called");
-    //console.log(formState);
+    console.log(selectedUserId);
+    if (selectedUserId) {
+      dispatch(
+        updateUser({
+          sno: selectedUserId,
+          name: values.name,
+          email: values.email,
+          number: values.number,
+        })
+      );
+    } else {
+      dispatch(
+        addUser({
+          sno: uuid(),
+          name: values.name,
+          email: values.email,
+          number: values.number,
+        })
+      );
+    }
+    navigate("/");
   };
 
   return (
@@ -43,14 +66,6 @@ const Register = () => {
       >
         {() => (
           <Form>
-            <div className="form-grp">
-              <label htmlFor="sno" className="labelstyle">
-                Sno
-              </label>
-              <Field name="sno" />
-              <ErrorMessage name="sno" component="div" className="error" />
-            </div>
-
             <div className="form-grp">
               <label htmlFor="name" className="labelstyle">
                 Name
@@ -75,7 +90,7 @@ const Register = () => {
               <ErrorMessage name="number" component="div" className="error" />
             </div>
 
-            <button type="submit" className="btn" onClick={() => handleSubmit}>
+            <button type="submit" className="btn">
               Submit
             </button>
           </Form>
