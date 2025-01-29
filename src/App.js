@@ -11,7 +11,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/register/:sno" element={<Register />} />
-        <Route path="/apicoming" element={<Posts />} />
+        <Route path="/api" element={<Posts />} />
       </Routes>
     </BrowserRouter>
   );

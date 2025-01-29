@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
-import { getPost } from "../api/postApi";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPosts, deletePosts } from "../Redux/post.reducer";
 
 export const Posts = () => {
-  const [data, setData] = useState([]);
-
-  const getPostData = async () => {
-    const res = await getPost();
-    console.log(res.data);
-    setData(res.data);
-  };
+  const dispatch = useDispatch();
+  const { data, loading, error } = useSelector((state) => state.post);
 
   useEffect(() => {
-    getPostData();
-  }, []);
+    dispatch(fetchPosts());
+  }, [dispatch]);
+
+  if (loading) return <h1>Loading...</h1>;
+  if (error) return <h1>Error: {error}</h1>;
+
+  const handleDelete = async (id) => {
+    dispatch(deletePosts(id));
+  };
 
   return (
     <section>
@@ -24,7 +27,7 @@ export const Posts = () => {
               <p>{title}</p>
               <p>{body}</p>
               <button>Edit</button>
-              <button>Delete</button>
+              <button onClick={() => handleDelete(id)}>Delete</button>
             </li>
           );
         })}
