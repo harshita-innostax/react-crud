@@ -23,7 +23,7 @@ const Table = () => {
   };
 
   return (
-    <div className="table-wrapper">
+    <div className="table-wrapper table-border">
       <h1 className="table-title">Employee Entry</h1>
       <table className="table">
         <thead>
