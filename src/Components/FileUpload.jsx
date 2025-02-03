@@ -27,25 +27,23 @@ const FileUpload = () => {
         ) : (
           <div>
             <p className="cursor-pointer border-2 text-red-600 bold  border-black border-dashed pt-4 pb-4 pr-6 pl-6">
-              Drag 'n' drop some files here, or click to select files
+              Drag and drop some files here, or click to select files
             </p>
+            {state &&
+              state.length > 0 &&
+              state.map((c, i) => {
+                return (
+                  <img
+                    key={i}
+                    src={URL.createObjectURL(c)}
+                    width={170}
+                    height={100}
+                    alt={`${c.name} Uploaded`}
+                  />
+                );
+              })}
           </div>
         )}
-      </div>
-      <div className="">
-        {state &&
-          state.length > 0 &&
-          state.map((c, i) => {
-            return (
-              <img
-                key={i}
-                src={URL.createObjectURL(c)}
-                width={200}
-                height={200}
-                alt="File uploaded"
-              />
-            );
-          })}
       </div>
     </>
   );

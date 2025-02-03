@@ -12,3 +12,8 @@ export const deletePost = async (id) => {
   await api.delete(`/posts/${id}`);
   return id;
 };
+
+export const updatePost = async (id, updatedData) => {
+  const res = await api.put(`/posts/${id}`, updatedData);
+  return res.data;
+};

@@ -1,11 +1,10 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, updateUser } from "../Redux/user.reducer";
 import { selectSelectedUserId } from "../Redux/user.selectors";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { v4 as uuid } from "uuid";
-import "./Register.css";
 
 const initialValues = {
   sno: "",
@@ -58,45 +57,80 @@ const Register = () => {
   };
 
   return (
-    <div className="modal">
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validateSchema}
-        onSubmit={handleSubmit}
-      >
-        {() => (
-          <Form>
-            <div className="form-grp">
-              <label htmlFor="name" className="labelstyle">
-                Name
-              </label>
-              <Field name="name" />
-              <ErrorMessage name="name" component="div" className="error" />
-            </div>
+    <>
+      <div>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validateSchema}
+          onSubmit={handleSubmit}
+        >
+          {() => (
+            <Form className="max-w-sm mx-auto">
+              <div className="mb-9">
+                <label
+                  htmlFor="name"
+                  className="block mb-2 text-xl font-semibold text-gray-900 dark:text-black"
+                >
+                  Name
+                </label>
+                <Field
+                  name="name"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
+                <ErrorMessage
+                  name="name"
+                  component="div"
+                  className="text-red-600 font-semibold"
+                />
+              </div>
 
-            <div className="form-grp">
-              <label htmlFor="email" className="labelstyle">
-                Email
-              </label>
-              <Field name="email" />
-              <ErrorMessage name="email" component="div" className="error" />
-            </div>
+              <div className="mb-9">
+                <label
+                  htmlFor="email"
+                  className="block mb-2 text-xl font-semibold text-gray-900 dark:text-black"
+                >
+                  Email
+                </label>
+                <Field
+                  name="email"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="text-red-600 font-semibold"
+                />
+              </div>
 
-            <div className="form-grp">
-              <label htmlFor="number" className="labelstyle">
-                Number
-              </label>
-              <Field name="number" />
-              <ErrorMessage name="number" component="div" className="error" />
-            </div>
+              <div className="mb-9">
+                <label
+                  htmlFor="number"
+                  className="block mb-2 text-xl font-semibold text-gray-900 dark:text-black"
+                >
+                  Number
+                </label>
+                <Field
+                  name="number"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
+                <ErrorMessage
+                  name="number"
+                  component="div"
+                  className="text-red-600 font-semibold"
+                />
+              </div>
 
-            <button type="submit" className="btn">
-              Submit
-            </button>
-          </Form>
-        )}
-      </Formik>
-    </div>
+              <button
+                type="submit"
+                className="flex justify-center bg-blue-500 hover:bg-red-700 text-white font-bold py-2 px-6 mt-4 rounded"
+              >
+                Submit
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </>
   );
 };
 
