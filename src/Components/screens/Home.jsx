@@ -1,7 +1,7 @@
-import Table from "./Table";
+import Table from "../organisms/Table";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setSelectedUserId } from "../Redux/user.reducer";
+import { setSelectedUserId } from "../../redux/user.reducer";
 
 function Home() {
   const navigate = useNavigate();

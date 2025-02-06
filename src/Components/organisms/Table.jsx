@@ -2,8 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
-import { deleteUser, setSelectedUserId } from "../Redux/user.reducer";
-import { selectUsers } from "../Redux/user.selectors";
+import { deleteUser, setSelectedUserId } from "../../redux/user.reducer";
+import { selectUsers } from "../../redux/user.selectors";
 
 const Table = () => {
   const users = useSelector(selectUsers);

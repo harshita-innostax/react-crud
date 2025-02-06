@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPosts, deletePosts, updatePosts } from "../Redux/post.reducer";
-import ConfirmDelete from "./ConfirmDelete";
+import { fetchPosts, deletePosts, updatePosts } from "../../redux/post.reducer";
+import ConfirmDelete from "../organisms/ConfirmDelete";
 
 export const Posts = () => {
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state.post);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [editPost, setEditPost] = useState(null);
 
   useEffect(() => {
     dispatch(fetchPosts());
@@ -32,13 +33,25 @@ export const Posts = () => {
     closeModal();
   };
 
-  const handleUpdate = async (id, body) => {
-    dispatch(updatePosts({ id, body }));
+  const handleEditClick = (post) => {
+    console.log(`called ${post}`);
+    setEditPost(post.id);
+  };
+  const handleChange = (e) => {
+    setEditPost({ ...editPost, [e.target.name]: e.target.value });
+  };
+
+  const handleUpdate = () => {
+    if (editPost) {
+      dispatch(updatePosts({ id: editPost.id, updatedData: editPost }));
+      setEditPost(null);
+    }
+    // dispatch(updatePosts({ id, body }));
   };
 
   return (
     <div
-      className="grid grid-cols-2 md:grid-cols-4 gap-3 flex-wrap mt-7 ml-2 mr-2 bg-gradient-to-b 
+      className="grid grid-cols-2 md:grid-cols-3 gap-3 flex-wrap mt-7 ml-2 mr-2 bg-gradient-to-b 
     from-gray-350 
     to-gray-400"
     >
@@ -55,7 +68,7 @@ export const Posts = () => {
             <div className="flex justify-between mt-auto">
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 mt-4 mr-3 rounded"
-                onClick={() => handleUpdate(id, body)}
+                onClick={() => handleEditClick(currElem)}
               >
                 Update
               </button>
@@ -69,6 +82,24 @@ export const Posts = () => {
           </div>
         );
       })}
+      {editPost && (
+        <div>
+          <input
+            type="text"
+            name="title"
+            value={editPost.title}
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            name="body"
+            value={editPost.body}
+            onChange={handleChange}
+          />
+          <button onClick={handleUpdate}>Submit</button>
+          <button onClick={() => setEditPost(null)}>Cancel</button>
+        </div>
+      )}
 
       <ConfirmDelete
         isOpen={isModalOpen}

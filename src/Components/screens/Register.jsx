@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser, updateUser } from "../Redux/user.reducer";
-import { selectSelectedUserId } from "../Redux/user.selectors";
+import { selectSelectedUserId } from "../../redux/user.selectors";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { v4 as uuid } from "uuid";
+import { addUser, updateUser } from "../../api/usersApi";
 
 const initialValues = {
   sno: "",
@@ -32,12 +31,11 @@ const Register = () => {
   const selectedUserId = useSelector(selectSelectedUserId);
 
   const handleSubmit = (values) => {
-    console.log("Handlesubmit called");
-    console.log(selectedUserId);
+    console.log("Handlesubmit called", selectedUserId);
+
     if (selectedUserId) {
       dispatch(
-        updateUser({
-          sno: selectedUserId,
+        updateUser(selectedUserId, {
           name: values.name,
           email: values.email,
           number: values.number,
@@ -46,7 +44,6 @@ const Register = () => {
     } else {
       dispatch(
         addUser({
-          sno: uuid(),
           name: values.name,
           email: values.email,
           number: values.number,
