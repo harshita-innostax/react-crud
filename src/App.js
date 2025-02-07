@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/screens/Home";
 import Register from "./components/screens/Register";
-import { Posts } from "./components/screens/Posts";
 import FileUpload from "./components/screens/FileUpload";
 
 function App() {
@@ -9,8 +8,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/register/:sno" element={<Register />} />
-        <Route path="/api" element={<Posts />} />
+        <Route path="/register/:sno?" element={<Register />} />
         <Route path="/uploadfiles" element={<FileUpload />} />
       </Routes>
     </BrowserRouter>

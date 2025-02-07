@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSelectedUserId } from "../../redux/user.selectors";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { addUser, updateUser } from "../../api/usersApi";
+import { selectSelectedUserId } from "../../redux/user.selectors";
+import { addUsers, updateUsers } from "../../redux/user.reducer";
 
 const initialValues = {
   sno: "",
@@ -35,22 +35,30 @@ const Register = () => {
 
     if (selectedUserId) {
       dispatch(
-        updateUser(selectedUserId, {
+        updateUsers({
+          id: selectedUserId,
           name: values.name,
           email: values.email,
           number: values.number,
         })
-      );
+      ).then((res) => {
+        if (res.payload) {
+          navigate("/");
+        }
+      });
     } else {
       dispatch(
-        addUser({
+        addUsers({
           name: values.name,
           email: values.email,
           number: values.number,
         })
-      );
+      ).then((res) => {
+        if (res.payload) {
+          navigate("/");
+        }
+      });
     }
-    navigate("/");
   };
 
   return (

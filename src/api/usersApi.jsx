@@ -10,13 +10,12 @@ export const getAllUsers = () => {
 };
 
 export const addUser = async (data) => {
-  const res = await api.post(`/user`, data);
-  return res.data;
+  return await api.post(`/user`, data);
 };
 
 export const deleteUser = async (id) => {
-  await api.delete(`/user/${id}`);
-  return id;
+  await api.delete(`/user/${id.id}`);
+  return id.id;
 };
 
 export const updateUser = async (id, updatedData) => {

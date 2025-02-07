@@ -1,8 +1,13 @@
 import React from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
-import { deleteUser, setSelectedUserId } from "../../redux/user.reducer";
+import {
+  fetchUsers,
+  deleteUsers,
+  setSelectedUserId,
+} from "../../redux/user.reducer";
 import { selectUsers } from "../../redux/user.selectors";
 
 const Table = () => {
@@ -11,9 +16,16 @@ const Table = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleDelete = (sno) => {
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
+
+  //if (loading) return <h1>Loading...</h1>;
+  //if (error) return <h1>Error: {error}</h1>;
+
+  const handleDelete = (id) => {
     console.log("handleDelete is called");
-    dispatch(deleteUser({ sno }));
+    dispatch(deleteUsers({ id }));
   };
 
   const handleEdit = (sno) => {
@@ -48,7 +60,7 @@ const Table = () => {
             {users.map((user) => {
               return (
                 <tr
-                  key={user.sno}
+                  key={user.id}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200"
                 >
                   <td
@@ -60,17 +72,17 @@ const Table = () => {
                   <td className="px-6 py-4 text-lg text-gray">
                     <span>{user.email}</span>
                   </td>
-                  <td className="px-6 py-4 text-lg">{user.number}</td>
+                  <td className="px-6 py-4 text-lg">{user.password}</td>
                   <td className="px-6 py-4">
                     <span>
                       <div className="flex gap-5">
                         <BsFillTrashFill
                           className=" text-red-500 hover:text-red-700 cursor-pointer text-lg cursor-pointer"
-                          onClick={() => handleDelete(user.sno)}
+                          onClick={() => handleDelete(user.id)}
                         />
                         <BsFillPencilFill
                           className="text-blue-500 hover:text-blue-700 cursor-pointer text-lg cursor-pointer"
-                          onClick={() => handleEdit(user.sno)}
+                          onClick={() => handleEdit(user.id)}
                         />
                       </div>
                     </span>
