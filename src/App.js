@@ -1,15 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./Home";
-import Register from "./Components/Register";
-import "./App.css";
+import Home from "./components/screens/Home";
+import Register from "./components/screens/Register";
+import FileUpload from "./components/screens/FileUpload";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/register/:sno" element={<Register />} />
+        <Route path="/register/:sno?" element={<Register />} />
+        <Route path="/uploadfiles" element={<FileUpload />} />
       </Routes>
     </BrowserRouter>
   );
